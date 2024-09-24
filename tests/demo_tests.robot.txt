@@ -1,0 +1,47 @@
+*** Settings ***
+Library           SeleniumLibrary
+Resource          ../resources/keywords.robot
+
+*** Variables ***
+${URL}            https://www.demoblaze.com
+${USERNAME}       testuser
+${PASSWORD}       testpassword
+${PHONE}          1234567890
+
+*** Test Cases ***
+Criação De Conta E Compra De Produtos
+    [Documentation]    Testa a criação de conta e compra de produtos
+    Open Browser    ${URL}    chrome
+    Criação De Conta    ${USERNAME}    ${PASSWORD}    ${PHONE}
+    Adicionar Produtos Ao Carrinho
+    Remover Produto Do Carrinho
+    Close Browser
+
+*** Keywords ***
+Criação De Conta
+    [Arguments]    ${username}    ${password}    ${phone}
+    Click Link    Signup
+    Input Text    id=username    ${username}
+    Input Text    id=password    ${password}
+    Input Text    id=phone    ${phone}
+    Click Button    Sign up
+
+Adicionar Produtos Ao Carrinho
+    Go To    ${URL}
+    Click Link    Phones
+    Click Link    Samsung galaxy s6
+    Click Button    Add to cart
+    Click Link    Laptops
+    Click Link    Sony vaio i5
+    Click Button    Add to cart
+    Click Link    Monitors
+    Click Link    Apple monitor 24
+    Click Button    Add to cart
+
+Remover Produto Do Carrinho
+    Go To    ${URL}
+    Click Link    Cart
+    Click Button    Remove    Apple monitor 24
+    ${confirmation}    Get Alert Text
+    Should Be Equal As Strings    ${confirmation}    Product has been removed.
+    Accept Alert

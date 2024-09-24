@@ -1,0 +1,12 @@
+*** Keywords ***
+Click Button
+    [Arguments]    ${button_name}
+    Click Element    xpath=//button[text()="${button_name}"]
+
+Click Link
+    [Arguments]    ${link_name}
+    Click Element    xpath=//a[text()="${link_name}"]
+
+Input Text
+    [Arguments]    ${element}    ${value}
+    Input Text    id=${element}    ${value}
